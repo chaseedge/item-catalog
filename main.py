@@ -290,12 +290,8 @@ def fbconnect():
 
     # Exchange client token for long-lived server-side token with
     # GET/oauth/access_token
-    app_id = json.loads(
-        open(
-            'fb_client_secrets.json',
-            'r').read())['web']['app_id']
-    app_secret = json.loads(open('fb_client_secrets.json', 'r').read())[
-        'web']['app_secret']
+    app_id = ENV['fb_app_id']
+    app_secret = ENV['fb_app_secret']
     url = 'https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=%s&client_secret=%s&fb_exchange_token=%s' % (
         app_id, app_secret, access_token)
     h = httplib2.Http()
@@ -541,10 +537,7 @@ def search():
         return redirect(url_for('showLogin'))
     if request.method == 'POST':
         query = request.form['query']
-        api_key = json.loads(
-            open(
-                'tmdb_client_secrets.json',
-                'r').read())['web']['api_key']
+        api_key = ENV['tmdb_api_key ']
         url = "http://api.themoviedb.org/3/search/movie?api_key=%s&query=%s" % (
             api_key, query)
         r = requests.get(url)
@@ -568,10 +561,7 @@ def addMovies():
     if 'username' in login_session:
         user_id = login_session['user_id']
         results = request.form
-        api_key = json.loads(
-            open(
-                'tmdb_client_secrets.json',
-                'r').read())['web']['api_key']
+        api_key = ENV['tmdb_api_key']
         for key in results:
 
             try:
