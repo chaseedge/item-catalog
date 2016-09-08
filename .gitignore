@@ -6,9 +6,6 @@ __pycache__/
 # api keys
 *.json
 
-# existing databases
-*.db
-
 # heroku config
 *.env
 
