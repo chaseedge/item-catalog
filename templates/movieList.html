@@ -1,0 +1,35 @@
+{% for movie in movies %}  
+    <div class="item poster card">
+        <div class="image_content">
+            <img class="poster" src="{{movie.poster | small_poster}}" alt="poster for {{movie.title}}">
+        </div>
+        <div class="info">
+            <p class="movie-title">
+                <a href="{{ url_for('showMovie', movie_id=movie.id) }}">{{movie.title}}  ({{movie.year}})</a>
+                {% if session['user_id'] == movie.user_id %}
+                <span class="edit pull-right"> 
+                    <a href="{{url_for('editMovie', movie_id=movie.id)}}">Edit</a> or
+                    <a href="{{url_for('deleteMovie', movie_id=movie.id)}}">Delete </a>
+                </span>
+                {% endif %}
+            </p>
+            <p id="{{movie.id}}" class="rating"></p>
+            <p class="genre">Genre: {{movie.genre_id | genre_name | capitalize}}</p>
+            <p class="actor">Cast: {{movie.actor_list}}</p>
+            <p class="overview">{{movie.description}}</p>
+            <p class="info-footer">Added on {{movie.added_on | format_datetime}} by {{movie.user_id | username}}</p>
+        </div>
+        
+    </div>
+    {% endfor %}
+
+<script>
+    $.fn.raty.defaults.path = "{{ url_for('static', filename='img/') }}";
+
+    {% for movie in movies %}
+        $('#{{movie.id}}').raty({
+                score: {{movie.rating}},
+                readOnly: true
+        });
+    {% endfor %}
+</script>

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include "header.html" %}
+
+<div class="row">
+    {% include 'sidebar.html' %}
+    <div class="container col-sm-9">
+        <h1 class="genre">{{ genre.name | capitalize}} Movies</h1>
+        {% if movies %} 
+            {% include 'movieList.html' %}
+        {% else %}
+            <p>There are no movies in this genre. Please <a href="{{url_for('search')}}">search</a> for some to add. 
+        {% endif %}
+    </div>
+
+</div>
+
+
+{% endblock %}

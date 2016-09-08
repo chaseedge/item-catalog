@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include "header.html" %}
+
+<h1>Here are the highest rated movies in the catalog</h1>
+
+<div class="row">
+    {% include 'sidebar.html' %}
+
+    <div class="container col-sm-9">
+        {% if not movies and not session['username'] %}
+            <p class="error">There are no movies in your catalog. Please <a href="{{url_for('showLogin')}}">login</a> and add movies</p>
+        {% elif not movies and session['username'] %}
+            <p class="error">There are no movies in your catalog. Please <a href="{{url_for('search')}}">add a movie</a> to start your catalog.</p>
+        {% endif %}
+        {% include 'movieList.html' %}
+</div>
+    {% endblock %}

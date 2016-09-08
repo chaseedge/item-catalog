@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include "header.html" %}
+
+<!-- Just in case the genre is listed, function to add it -->
+<script type="text/javascript">
+    function showfield(genre){
+        console.log('showing other')
+    if(genre=='other')document.getElementById('other')
+        .innerHTML='<label for="other" class="col-sm-2 control-label">Other Genre</label><div class="col-sm-6"><input type="text" class="form-control" name="other" /></div>';
+    else document.getElementById('other').innerHTML='';
+    }
+</script>
+
+
+<h1>Edit Movie</h1>
+
+<form class="form-horizontal" method="POST">
+  <div class="form-group">
+    <label for="title" class="col-sm-2 control-label">Movie Title</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="title" name="title" value="{{movie.title}}">
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label for="year" class="col-sm-2 control-label">Year</label>
+    <div class="col-sm-10">
+        <select class="form-control" id="year" name="year">
+            {% for i in range(1890,2017) | reverse %}
+                {% if i == movie.year %}
+                    <option selected>{{i}}</option>
+                {% else %}
+                    <option>{{i}}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="poster" class="col-sm-2 control-label">Movie Poster</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="poster" name="poster" value="{{movie.poster}}">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="trailer" class="col-sm-2 control-label">Trailer</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="trailer_link" name="trailer" value="{{movie.trailer}}">
+    </div>
+  </div>
+  <div class="form-group">
+      <label for="genre" class="col-sm-2 control-label">Genre</label>
+      <div class="col-sm-10">
+          <select class="form-control" id="genre" name="genre" onchange="showfield(this.options[this.selectedIndex].value)">
+              {% for g in genres %}
+                {% if movie.genre_id == g.id %}
+                  <option selected value="{{g.id}}">{{g.name | capitalize}}</option>
+                  {% else %}
+                  <option value="{{g.id}}">{{g.name | capitalize}}</option>
+                {% endif %}
+              {% endfor %}
+              <option value='other'>Other</option>
+          </select>
+      </div>
+  </div> 
+
+<!-- Other genre input -->
+  <div class="form-group" id="other">      
+      <div class="col-sm-6" id="other"></div>
+  </div>
+
+  <div class="form-group">
+    <label for="description" class="col-sm-2 control-label">Plot</label>
+    <div class="col-sm-10">
+      <textarea class="form-control" id="description" name="description">{{movie.description}}</textarea>
+    </div>
+  </div>
+     
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-default">Submit</button>
+      <a href="{{url_for('showMovie', movie_id=movie.id)}}"><button type="button" class="btn btn-default">Cancel</button></a>
+    </div>
+  </div>
+</form>
+
+{% endblock %}

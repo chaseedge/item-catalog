@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include "header.html" %}
+
+<form class="form-horizontal" method="POST" action="{{ url_for('addMovies') }}">
+    <div id="movies">
+    </div>
+    <p id="delete"></p>
+    <button type="submit" class="btn btn-default">Add Movies</button>
+    
+</form>
+
+<p>Can't find your movie to add? Please click <a href="{{url_for('newMovie')}}">here</a> to add it manually.</p>
+<div class="results">
+    {% for result in results %}        
+    <div class="item poster card" onclick="addMovie({{result.id}},'{{result.title | safe }}');">
+        <div class="image_content">    
+            <img class="poster" src="{{result.poster | small_poster}}" alt="poster for {{result.title}}">
+        </div>
+        <div class="info">
+            <p>
+                <span class="title result">{{result.title}}  ({{result.year}})</span>
+            </p>
+            <p class="overview">{{result.description}}</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    function remove(element) {
+    };
+
+    function addMovie(id,title) {
+        var e = document.getElementsByName(id).length;
+        var l = document.getElementById("movies").childNodes.length;
+        var p = document.getElementById("delete");
+        if (p.innerHTML == "" && l > 0) {
+            p.innerHTML = "Double click to remove movie from list"
+        }
+        if (e) {
+            console.log('Movie already added')
+        } else {
+            var form = document.getElementById('movies');
+            var btn = document.createElement("INPUT")
+            btn.setAttribute("class", "btn btn-default");
+            btn.setAttribute("name", id);
+            btn.setAttribute("value", title);
+            btn.setAttribute("type", "text");
+            btn.setAttribute("ondblclick", "remove(this);")
+            form.appendChild(btn);
+        }
+
+    }
+</script>
+
+{% endblock %}

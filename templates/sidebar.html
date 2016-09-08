@@ -1,0 +1,8 @@
+<div id="sidebar" class="col-sm-3">
+    <div class="list-group">
+        <h4>Genres</h4>
+        {% for genre in genres %}
+        <a href="{{url_for('showGenre', name=genre.name)}}" class="list-group-item">{{genre.name | capitalize}} - {{genre.id | genre_count}}</a>
+        {% endfor %}
+    </div>
+</div>

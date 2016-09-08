@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include "header.html" %}
+
+{% include "sidebar.html" %}
+    <div class="container col-sm-9">
+
+        <div class="row">            
+            <span class="movie-title">{{movie.title}} ({{movie.year}})</span>
+            <div id="rating" class="rating pull-right"></div>
+            <p>Added by {{movie.user_id | username}}</p>
+            
+        </div>
+        <div class="row">            
+            <img class="img-responsive" src="{{movie.backdrop}}" alt="image from {{movie.title}}">
+        </div>
+            <div class="info">
+                <span class="genre">Genre: {{movie.genre_id | genre_name | capitalize}}</span>
+                <div class="pull-right">
+                    {% if session['user_id'] == movie.user_id %}
+                        <a href="{{url_for('editMovie', movie_id=movie.id)}}">Edit</a> or
+                        <a href="{{url_for('deleteMovie', movie_id=movie.id)}}">Delete </a>
+                    {% endif %}
+                </div>
+                </br>
+                <p class="actor">Cast: {{movie.actor_list}}</p>
+                <p class="description">{{movie.description}}</p>
+            </div>
+            <div class="embed-responsive embed-responsive-16by9 trailer">
+                <iframe width="100%" class="embed-responsive-item" src="{{movie.trailer}}"></iframe>
+            </div>
+            <div class="well">
+                <h4>User Reviews</h4>
+                {% if not user %}
+                <p>Please login to review</p>
+                {% endif %}
+                <hr>
+                {% for review in reviews %}
+
+                <div class="row">
+                    <div class="col-md-12">
+                        
+                        {{review.user_id | username}} <span id="{{review.id}}"></span>
+
+                            {% if user.id == review.user_id %}
+                            <a href="{{url_for('editReview', review_id=review.id)}}">Edit</a>
+                            <a href="{{url_for('deleteReview', review_id=review.id)}}">Delete</a>
+                            {% endif %}
+
+                        <span class="pull-right">{{review.created_on | format_datetime }}</span>
+                        <p>{{review.review}}</p>
+                    </div>
+                </div>
+                {% endfor %}
+                {% if user_review == 0 and user %}
+                    {% include 'reviewForm.html' %}
+                {% endif %}
+            </div>
+        </div>
+
+ <script>
+  $.fn.raty.defaults.path = "{{ url_for('static', filename='img/') }}";
+    
+    $('#rating').raty({
+        score: {{movie.rating }},
+        readOnly: true,
+        halfShow: true
+    });
+
+    
+    {% for review in reviews %}
+    
+        $('#{{review.id}}').raty({
+            score: {{review.rating}},
+            readOnly: true,
+        });
+
+    {% endfor %}
+
+</script>
+
+{% endblock %}
+
+
+

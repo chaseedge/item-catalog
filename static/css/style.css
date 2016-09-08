@@ -1,0 +1,237 @@
+.intro {
+    margin-bottom: 25px;
+}
+
+div.signup.header {
+    margin-bottom: 30px;
+}
+
+span.edit {
+    font-size: 0.5em;
+    padding-top: 5px;
+}
+
+p.description {
+    margin-bottom: 25px;
+}
+div.rating {
+    margin-bottom: 10px;
+    line-height: 40px;
+}
+div.new-review {
+    padding-left: 19px;
+}
+span.movie-title {
+    font-size: 2em;
+    font-weight: bold;
+}
+h1.genre {
+    margin-top: 10px;
+}
+
+#sidebar{
+    margin-top: 30px;
+}
+
+p.movie-title {
+    font-size: 1.5em;
+    margin-bottom: 0px;
+}
+p.navbar-text {
+    width: 200px;
+    text-align: right;
+}
+
+p.info-footer {
+    position: absolute;
+    bottom: 0px;
+    font-size: 0.8em;
+}
+
+p.rating img {
+    height: 18px;
+}
+
+p.genre, p.actor {
+    margin: 2px 0;
+}
+
+.form-horizontal .control-label{
+    text-align: left;
+}
+
+div.result {
+    margin-bottom: 34px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease-out;
+}
+
+div.result:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.card {
+    -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    background-color: #fff;
+}
+
+a.view_style {
+    padding-top: 4px;
+}
+
+div.results {
+    margin-top: 30px;
+}
+
+div.results::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+div.item {
+    float: left;
+    margin-bottom: 24px;
+    color: #000;
+}
+
+div.item span.list_action, div.item span.rating {
+    color: #000;
+    padding-top: 1px;
+}
+
+div.item.card.backdrop {
+    margin-bottom: 30px;
+}
+
+div.item.poster.card {
+    margin-bottom: 34px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease-out;
+}
+
+div.item.poster.card:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+div.item p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 4px 4px 0 4px;
+}
+
+div.item p:last-of-type {
+    margin-bottom: 0;
+}
+
+div.item.poster.card div.info {
+    float: left;
+    width: 404px;
+    height: 275px;
+    position: relative;
+}
+
+div.results div.item.poster.card div.info {
+    width: 274px;
+    height: 275px;
+    position: relative;
+}
+
+div.item.card p.overview {
+    word-wrap: break-word;
+    white-space: normal;
+    color: #4d4d4d;
+    font-size: 0.9em;
+    line-height: 1.2em;
+    margin-top: 10px;
+}
+
+
+div.item p.meta {
+    padding-top: 0;
+    font-size: 0.9em;
+}
+
+
+div.item.poster {
+    width: 185px;
+}
+
+div.item.backdrop {
+    width: 445px;
+}
+
+div.results div.item.card {
+    width: 483px;
+    margin-left: 15px;
+}
+
+div.item.card {
+    width: 613px;
+    background-color: #fff;
+}
+
+div.item.backdrop div.content, div.item.poster div.content {
+    padding: 10px 10px 16px 10px;
+}
+
+div.image_content {
+    overflow: hidden;
+}
+
+div.item.poster div.image_content, div.item.backdrop div.image_content {
+    height: 278px;
+}
+
+div.item.poster.card div.image_content {
+    float: left;
+    width: 185px;
+    margin-right: 13px;
+}
+
+div.item.poster div.image_content img {
+    width: 185px;
+    height: 278px;
+}
+
+div.item.backdrop div.image_content img {
+    position: relative;
+    top: -3px;
+    left: -25px;
+    width: 500px;
+    height: 281px;
+}
+
+div.item.backdrop.card.backdrop div.image_content img {
+    left: -8px;
+}
+
+
+div.item.card span.release_date {
+    font-size: 1.0em;
+    float: right;
+    padding-left: 6px;
+}
+
+div.item.card span.release_date span.glyphicons {
+    padding-left: 2px;
+}
+
+div.item.card span.genres {
+    padding-left: 1px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-style: italic;
+}
+
+
+div.poster.card span.genres {}
+
+div.item.backdrop.card span.genres {
+    width: 360px;
+}

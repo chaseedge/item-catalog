@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include "header.html" %}
+
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '759932230776053',
+      xfbml      : true,
+      version    : 'v2.7'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+
+
+fbResponse = function(response) {
+    if (response.status === 'connected') {
+    var access_token = response.authResponse['accessToken'];
+    FB.api('/me', function(response) {
+        console.log('Sucessful login for: ' + response.name);
+        $.ajax({
+            type: 'POST',
+            url: '/fbconnect?state={{STATE}}',
+            processData: false,
+            data: access_token,
+            contentType: 'application/octet-stream; charset=utf-8',
+            success: function(result) {
+                if (result) {
+                    $('#result').html('Login Succesful!</br>' + result + '</br>Redirecting...')
+                    setTimeout(function(){
+                        window.location.href='/catalog';
+                    }, 2000);
+                }
+            }
+        })
+    });
+    } else if (response.status === 'not_authorized') {
+        // The person is logged into Facebook, but not your app.
+        console.log("Logged in but app not authorized")
+    } else {
+        // The person is not logged into Facebook, so we're not sure if
+        // they are logged into this app or not.
+        console.log("Person has not logged in")
+    }
+};
+
+    function validateForm() {
+      var e = document.forms["login"]["email"].value;
+      var p = document.forms["login"]["password"].value;
+      
+      if (e == null || e == "" || p == null || p == "") {
+        return false;
+      } 
+    }
+
+</script>
+
+<div class="container login">
+    <h3>Please login with or email or with your facebook account.</h3>
+    </br>
+    
+    <form id="login" class="form-horizontal" method="POST" onsubmit="return validateForm()">
+
+        <div class="form-group">
+            <label for="email" class="col-sm-2 control-label">Email</label>
+            <div class="col-sm-4">
+            <input type="email" class="form-control" id="email" name="email" value="{{email}}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password" class="col-sm-2 control-label">Password</label>
+            <div class="col-sm-4">
+            <input type="password" class="form-control" id="password" name="password">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Login</button>
+            <a href="{{url_for('showCatalog')}}"><button type="button" class="btn btn-default">Cancel</button></a>
+            </div>
+        </div>        
+        
+    </form>
+    <hr>
+    <br>
+    <div class="col-sm-4 col-sm-offset-2">
+        <a class="btn btn-block btn-social btn-facebook" href="javascript:FB.login(fbResponse,{scope:'public_profile,email'});">
+            <span class="fa fa-facebook"></span> Login with Facebook
+        </a>
+        <div id="result"></div>
+    </div>
+</div>
+{% endblock %}

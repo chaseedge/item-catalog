@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include "header.html" %}
+
+<!-- Just in case the genre is listed, function to add it -->
+<script type="text/javascript">
+    function showfield(genre){
+        console.log('showing other')
+    if(genre=='other')document.getElementById('other')
+        .innerHTML='<label for="other" class="col-sm-2 control-label">Other Genre</label><div class="col-sm-6"><input type="text" class="form-control" name="other" /></div>';
+    else document.getElementById('other').innerHTML='';
+    }
+
+    function validateForm() {
+      var x = document.forms["movie"]["title"].value;
+      var y = document.forms["movie"]["genre"].value;
+      if (x == null || x == "") {
+          alert("Movie Title is required");
+          return false;
+      }
+      if (y == null || y == "") {
+          alert("You must select a genre");
+          return false;
+      }
+      if (y == "other") {
+        var z = document.forms["movie"]["other"].value;
+        if (z == null || z == "") {
+          alert("Please enter other genre");
+          return false; 
+        }
+      }
+    }
+</script>
+
+<h1>New Movie</h1>
+
+<form id="movie" class="form-horizontal" method="POST" onsubmit="return validateForm()">
+  <div class="form-group">
+    <label for="title" class="col-sm-2 control-label">*Movie Title</label>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" id="title" name="title" placeholder="Title">
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label for="actors" class="col-sm-2 control-label">Actors</label>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" id="actors" name="actor_list" placeholder="added actors seperated by commas">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="year" class="col-sm-2 control-label">Year</label>
+    <div class="col-sm-6">
+        <select class="form-control" id="year" name="year">
+            {% for i in range(1890,2017) | reverse %}
+                <option>{{i}}</option>
+            {% endfor %}
+        </select>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="poster" class="col-sm-2 control-label">Movie Poster</label>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" id="poster" name="poster" placeholder="url for movie poster">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="backdrop" class="col-sm-2 control-label">Other Movie Image</label>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" id="backdrop" name="backdrop" placeholder="url for other movie image">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="trailer" class="col-sm-2 control-label">Trailer</label>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" id="trailer_link" name="trailer" placeholder="url for trailer">
+    </div>
+  </div>
+  
+  <div class="form-group">
+      <label for="genre" class="col-sm-2 control-label">*Genre</label>
+      <div class="col-sm-6">
+          <select class="form-control" id="genre" name="genre" onchange="showfield(this.options[this.selectedIndex].value)">
+              <option disabled selected value> -- select a genre -- </option>
+              {% for g in genres %}
+              <option value="{{g.id}}">{{g.name | capitalize}}</option>
+              {% endfor %}
+              <option value='other'>Other</option>
+          </select>
+      </div>
+  </div>
+
+  <!-- Other genre input -->
+  <div class="form-group" id="other">      
+      <div class="col-sm-6" id="other"></div>
+  </div>
+
+  <div class="form-group">
+    <label for="description" class="col-sm-2 control-label">Description</label>
+    <div class="col-sm-6">
+      <textarea class="form-control" id="description" name="description" placeholder="movie plot"></textarea>
+    </div>
+  </div> 
+
+
+     
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-6">
+      <button type="submit" class="btn btn-default">Create</button>
+      <button type="button" class="btn btn-default">Cancel</button>
+    </div>
+  </div>
+</form>
+<p>* required fields</p>
+
+{% endblock %}
+
+

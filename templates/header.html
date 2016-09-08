@@ -1,0 +1,38 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+
+      <a class="navbar-brand" href="/">
+        <i class="fa fa-film fa-2" aria-hidden="true"></i>
+      </a>
+
+			<ul class="nav navbar-nav">
+				<li><a href="{{url_for('showTop')}}">Top Movies</a></li>
+				<li><a href="{{url_for('showRecent')}}">Recently Reviewed</a></li>
+				<li><a href="{{url_for('search')}}">Add a Movie</a></li>
+			</ul>
+
+    </div>
+		<div class="navbar-right">
+			{% if 'username' not in session %}
+        <a href="{{url_for('signup')}}"><button type="button" class="btn btn-default navbar-btn">Signup</button></a>
+        <a href="{{url_for('showLogin')}}"><button type="button" class="btn btn-default navbar-btn">Login</button></a>
+      {% else %}
+        <p class="navbar-text">Signed in as <a href="#" class="navbar-link">{{session['username']}}</a></p>
+        <a href="{{url_for('logout')}}"><button type="button" class="btn btn-default navbar-btn">Logout</button></a>
+			{% endif %}
+		</div>
+  </div>
+
+	
+</nav>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li class="alert alert-warning" role="alert">{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
