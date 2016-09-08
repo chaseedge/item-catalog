@@ -9,8 +9,6 @@ import random
 import string
 import re
 
-from oauth2client.client import flow_from_clientsecrets
-from oauth2client.client import FlowExchangeError
 import httplib2
 import json
 import requests
