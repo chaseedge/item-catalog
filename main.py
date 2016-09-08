@@ -113,6 +113,8 @@ def getReviews(movie_id):
 
 # updates the movie rating
 
+# updates the rating for the Movie entry
+
 
 def updateRating(movie_id):
     movie = getMovie(movie_id)
@@ -131,24 +133,13 @@ def updateRating(movie_id):
     return movie
 
 
-@app.template_filter('rating')
-def getRatingFilter(movie_id):
-    reviews = session.query(Review).filter_by(movie_id=movie_id).all()
-    num = session.query(Review).filter_by(movie_id=movie_id).count()
-    rating = None
-    sum = 0
-    for review in reviews:
-        sum += review.rating
-    if num > 0:
-        rating = 1.0 * sum / num
-    return rating
-
-
 # filters to look up Genre and User names
 @app.template_filter('genre_name')
 def genreNameFilter(genre_id):
     genre = getGenreById(genre_id)
     return genre.name
+
+# returns username
 
 
 @app.template_filter('username')
@@ -162,11 +153,9 @@ def getGenreCount(genre_id):
     num = session.query(Movie).filter_by(genre_id=genre_id).count()
     return num
 
+
 # filters for the different poster sizes
-
 # check to see if poster is from TheOpenMovieDB and then select size
-
-
 @app.template_filter('small_poster')
 def getSmallPoster(s):
     try:
@@ -176,9 +165,8 @@ def getSmallPoster(s):
     except:
         return s
 
+
 # check to see if poster is from TheOpenMovieDB and then select size
-
-
 @app.template_filter('big_poster')
 def getBigPoster(s):
     print 'first letter is ', s[:1]
@@ -241,9 +229,8 @@ def signup():
 
     return render_template('signup.html')
 
+
 # login handler with anti-forgery state token
-
-
 @app.route('/login', methods=["POST", "GET"])
 def showLogin():
     if request.method == "POST":
@@ -276,6 +263,7 @@ def showLogin():
     state = ''.join(random.choice(string.ascii_uppercase + string.digits)
                     for x in xrange(32))
     login_session['state'] = state
+    
     # return "The current session state is %s" % login_session['state']
     return render_template('login.html', STATE=state)
 
@@ -290,8 +278,12 @@ def fbconnect():
 
     # Exchange client token for long-lived server-side token with
     # GET/oauth/access_token
-    app_id = ENV['fb_app_id']
-    app_secret = ENV['fb_app_secret']
+    app_id = json.loads(
+        open(
+            'fb_client_secrets.json',
+            'r').read())['web']['app_id']
+    app_secret = json.loads(open('fb_client_secrets.json', 'r').read())[
+        'web']['app_secret']
     url = 'https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=%s&client_secret=%s&fb_exchange_token=%s' % (
         app_id, app_secret, access_token)
     h = httplib2.Http()
@@ -381,9 +373,8 @@ def showTop():
     genres = getAllGenres()
     return render_template('catalog.html', movies=movies, genres=genres)
 
+
 # shows recently added movies
-
-
 @app.route('/catalog/recent/')
 def showRecent():
     movies = session.query(Movie).order_by(Movie.added_on.desc()).limit(5)
@@ -494,8 +485,7 @@ def editMovie(movie_id):
         movie.trailer = request.form['trailer']
         genre_id = request.form['genre']
 
-        # check and see if other was listed as genre and create new genre for
-        # it
+        # check and see if other was listed as genre and creates new genre
         if genre_id == 'other':
             name = request.form['other']
             genre = getGenreByName(name)
@@ -537,7 +527,10 @@ def search():
         return redirect(url_for('showLogin'))
     if request.method == 'POST':
         query = request.form['query']
-        api_key = ENV['tmdb_api_key ']
+        api_key = json.loads(
+            open(
+                'tmdb_client_secrets.json',
+                'r').read())['web']['api_key']
         url = "http://api.themoviedb.org/3/search/movie?api_key=%s&query=%s" % (
             api_key, query)
         r = requests.get(url)
@@ -561,7 +554,10 @@ def addMovies():
     if 'username' in login_session:
         user_id = login_session['user_id']
         results = request.form
-        api_key = ENV['tmdb_api_key']
+        api_key = json.loads(
+            open(
+                'tmdb_client_secrets.json',
+                'r').read())['web']['api_key']
         for key in results:
 
             try:
