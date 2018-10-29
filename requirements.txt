@@ -9,7 +9,7 @@ Jinja2==2.8
 MarkupSafe==0.23
 pep8==1.7.0
 pytz==2016.4
-requests==2.11.1
+requests==2.20
 six==1.10.0
 SQLAlchemy==1.0.15
 twilio==6.3.dev0
